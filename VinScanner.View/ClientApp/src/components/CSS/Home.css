@@ -1,0 +1,26 @@
+﻿div {
+    padding-top: 20px;
+}
+
+h1 {
+    color: #000000;
+    font-size: 30px;
+    margin: 0;
+}
+
+h2 {
+    color: #ff6a00;
+    text-decoration: underline;
+    font-size: 30px;
+    margin: 0;
+}
+
+p {
+    padding: 10px;
+    color: #808080;
+    font-size: 12px;
+}
+
+.glyphicon{
+    font-size: 40px;
+}

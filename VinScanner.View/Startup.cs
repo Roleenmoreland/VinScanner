@@ -1,13 +1,16 @@
-﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using VinScanner.API.Interfaces;
-using VinScanner.API.Services;
+using Nexmo.Api.Request;
 using Swashbuckle.AspNetCore.Swagger;
+using VinScanner.View.Interfaces;
+using VinScanner.View.Services;
 
-namespace VinScanner.API
+namespace VinScanner.View
 {
     public class Startup
     {
@@ -22,16 +25,24 @@ namespace VinScanner.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
+            
+            //Application Dependancy Injection 
             services.AddTransient<ICommunicationService<SmsService>, SmsService>();
             services.AddTransient<ICommunicationService<EmailService>, EmailService>();
-
+            services.Configure<Credentials>(Configuration.GetSection(nameof(Credentials)));
+            
             //Registering Swagger
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "Vin Scanner API", Version = "v1" });
             });
 
+
+            // In production, the React files will be served from this directory
+            services.AddSpaStaticFiles(configuration =>
+            {
+                configuration.RootPath = "ClientApp/build";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,12 +62,30 @@ namespace VinScanner.API
             }
             else
             {
+                app.UseExceptionHandler("/Error");
                 app.UseHsts();
             }
 
-
             app.UseHttpsRedirection();
-            app.UseMvc();
+            app.UseStaticFiles();
+            app.UseSpaStaticFiles();
+
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller}/{action=Index}/{id?}");
+            });
+
+            app.UseSpa(spa =>
+            {
+                spa.Options.SourcePath = "ClientApp";
+
+                if (env.IsDevelopment())
+                {
+                    spa.UseReactDevelopmentServer(npmScript: "start");
+                }
+            });
         }
     }
 }

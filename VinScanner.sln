@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.421
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VinScanner.API", "VinScanner.API\VinScanner.API.csproj", "{E128EAE1-9892-41A2-9FBF-4E06F0DCA31F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VinScanner.View", "VinScanner.View\VinScanner.View.csproj", "{018A1B50-68E4-4B7B-957B-F532D862C3C0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E128EAE1-9892-41A2-9FBF-4E06F0DCA31F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E128EAE1-9892-41A2-9FBF-4E06F0DCA31F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E128EAE1-9892-41A2-9FBF-4E06F0DCA31F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E128EAE1-9892-41A2-9FBF-4E06F0DCA31F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{018A1B50-68E4-4B7B-957B-F532D862C3C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{018A1B50-68E4-4B7B-957B-F532D862C3C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{018A1B50-68E4-4B7B-957B-F532D862C3C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{018A1B50-68E4-4B7B-957B-F532D862C3C0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
