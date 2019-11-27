@@ -1,12 +1,12 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Nexmo.Api.Request;
 using Swashbuckle.AspNetCore.Swagger;
+using VinScanner.Services;
 using VinScanner.View.Interfaces;
 using VinScanner.View.Services;
 
@@ -53,7 +53,6 @@ namespace VinScanner.View
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Vin Scanner");
-                //c.RoutePrefix = string.Empty;
             });
 
             if (env.IsDevelopment())

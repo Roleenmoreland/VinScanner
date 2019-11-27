@@ -31,6 +31,7 @@ namespace VinScanner.View.Services
         /// <returns></returns>
         public bool Send(string to, string message)
         {
+            //todo make values to get from content
             var results = _client.SMS.Send(new SMS.SMSRequest
             {
                 from = "VIN Scanner | The Delta Studio",

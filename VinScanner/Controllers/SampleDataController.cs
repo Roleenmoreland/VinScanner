@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
-namespace VinScanner.View.Controllers
+namespace VinScanner.Controllers
 {
     [Route("api/[controller]")]
     public class SampleDataController : Controller

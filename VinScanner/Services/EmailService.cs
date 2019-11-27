@@ -6,7 +6,7 @@ using System.Net;
 using System.Threading.Tasks;
 using VinScanner.View.Interfaces;
 
-namespace VinScanner.View.Services
+namespace VinScanner.Services
 {
     public class EmailService : ICommunicationService<EmailService>
     {
@@ -14,7 +14,7 @@ namespace VinScanner.View.Services
         private readonly ILogger<EmailAddress> _logger;
 
         /// <summary>
-        /// instantiates the send grid client and logger. Gets secuirity key from server's environment variable
+        /// Instantiates the send grid client and logger. Gets secuirity key from server's environment variable
         /// </summary>
         /// <param name="logger"></param>
         public EmailService(ILogger<EmailAddress> logger)
@@ -23,10 +23,18 @@ namespace VinScanner.View.Services
             _sendGridClient = new SendGridClient(apiKey);
             _logger = logger;
         }
+        
+        /// <summary>
+        /// Sends and email
+        /// </summary>
+        /// <param name="to">The receiver of the email</param>
+        /// <param name="message">Message that is sent</param>
+        /// <returns></returns>
         public bool Send(string to, string message)
         {
             try
             {
+                //todo make values to get from content
                 var from = new EmailAddress("VinScanner@TheDeltaStudio.com", "VinScanner");
                 var subject = "Vin Scanner | The Delta Studio";
                 var msg = MailHelper.CreateSingleEmail(from, new EmailAddress(to), subject, message, message);
