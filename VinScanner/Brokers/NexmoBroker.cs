@@ -3,23 +3,31 @@ using Microsoft.Extensions.Options;
 using Nexmo.Api;
 using Nexmo.Api.Request;
 using System.Linq;
-using VinScanner.View.Interfaces;
+using VinScanner.Interfaces;
+using VinScanner.Models;
+using VinScanner.Services;
 
-namespace VinScanner.View.Services
+namespace VinScanner.Brokers
 {
-    public class SmsService : ICommunicationService<SmsService>
+    public class NexmoBroker : INexmoBroker
     {
-        private readonly ILogger<SmsService> _logger;
-        private readonly Client _client = null;
+        private readonly ILogger<NexmoBroker> _logger;
+        private readonly Client _NexmoClient = null;
 
         /// <summary>
         /// Initializes the logger and the Nexmo client
         /// </summary>
         /// <param name="logger"></param>
-        public SmsService(ILogger<SmsService> logger, IOptions<Credentials> configuration)
+        public NexmoBroker(ILogger<NexmoBroker> logger, IOptions<Credentials> configuration)
         {
+            
             //Takes the API key and secret key from the appSettings file, rather than hardcoding
-            _client = new Client(configuration.Value);
+            _NexmoClient = new Client(new Credentials {
+                //Takes the already encrypted value and decrypts 
+                ApiKey = Cipher.DecryptString(configuration.Value.ApiKey, Constants.NexmoApiKeyPassKey),
+                ApiSecret = Cipher.DecryptString(configuration.Value.ApiSecret, Constants.NexmoApiSecretPassKey),
+            });
+
             _logger = logger;
         }
 
@@ -29,15 +37,15 @@ namespace VinScanner.View.Services
         /// <param name="to">To whom the message is sent to, with th</param>
         /// <param name="message">The message</param>
         /// <returns></returns>
-        public bool Send(string to, string message)
+        public bool Send(string to, string message, string title, string from)
         {
             //todo make values to get from content
-            var results = _client.SMS.Send(new SMS.SMSRequest
+            var results = _NexmoClient.SMS.Send(new SMS.SMSRequest
             {
-                from = "VIN Scanner | The Delta Studio",
+                from = from ?? "VIN Scanner | The Delta Studio",
                 to = to,
                 text = message,
-                title = "VIN Scanner"
+                title = title ?? "VIN Scanner"
             });
             var hasErrors = results?.messages?.Any(x => x.error_text != null) ?? false;
 

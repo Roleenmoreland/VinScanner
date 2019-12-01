@@ -7,8 +7,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Nexmo.Api.Request;
 using Swashbuckle.AspNetCore.Swagger;
 using VinScanner.Services;
-using VinScanner.View.Interfaces;
-using VinScanner.View.Services;
+using VinScanner.Interfaces;
+using VinScanner.Brokers;
 
 namespace VinScanner.View
 {
@@ -27,8 +27,8 @@ namespace VinScanner.View
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             
             //Application Dependancy Injection 
-            services.AddTransient<ICommunicationService<SmsService>, SmsService>();
-            services.AddTransient<ICommunicationService<EmailService>, EmailService>();
+            services.AddTransient<INexmoBroker, NexmoBroker>();
+            services.AddTransient<ISendGridBroker, SendGridBroker>();
             services.Configure<Credentials>(Configuration.GetSection(nameof(Credentials)));
             
             //Registering Swagger

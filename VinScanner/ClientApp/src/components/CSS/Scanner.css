@@ -1,7 +1,6 @@
-﻿.scanner-box {
+﻿/*.scanner-box {
     position: absolute;
     bottom: 50px;
-    
     padding: 20px;
     border: 3px solid orange;
     margin: auto;
@@ -22,24 +21,15 @@ p {
     color: #000000;
     font-weight: bold;
     margin: 0;
-    padding :0px, 20px;
+    padding: 0px, 20px;
 }
 
-.glyphicon {
+.top-header .glyphicon {
     text-align: right;
     font-size: 15px;
     margin-left: 25px;
-    color: #000000;
 }
-.circle {
-    height: 125px;
-    width: 125px;
-    background-color: #bbb;
-    border-radius: 50%;
-    display: inline-block;
-}
-
 
 .scan-area {
     background-color: #000000;
-}
+}*/

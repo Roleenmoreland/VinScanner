@@ -1,4 +1,4 @@
-﻿namespace VinScanner.View.Interfaces
+﻿namespace VinScanner.Interfaces
 {
     public interface ICommunicationService<T> where T : class
     {

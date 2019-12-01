@@ -21,7 +21,7 @@ export class Scanner extends Component {
     //Scan the VIN barcode
     scan(data) {
         this.setState({
-            result: data
+            result: "Your VIN number has been successfully scanned and connected"
         })
         console.log("Data: ", data)
         this.showSuccessMessage()
@@ -52,21 +52,18 @@ export class Scanner extends Component {
 
                 <p>{this.state.result}</p>
                 <div className="scan-area" >
-                    <p>Make sure the barcode fits within the orange square </p>
-
-                    <div className="circle" >
 
 
-                        <div className="scanner-box">
-                            <BarcodeReader
-                                onError={this.handleError}
-                                onScan={this.scan}
-                                onReceive={this.scan}
-                                displayName="test"
-                            />
-                        </div>
 
-                    </div >
+                    <div className="scanner-box">
+                        <BarcodeReader
+                            onError={this.handleError}
+                            onScan={this.scan}
+                            onReceive={this.scan}
+                            displayName="test"
+                        />
+                    </div>
+
 
                 </div>
 

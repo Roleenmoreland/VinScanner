@@ -1,18 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using VinScanner.View.Interfaces;
-using VinScanner.View.Services;
+using VinScanner.Interfaces;
+using VinScanner.Services;
 
-namespace VinScanner.View.Controllers
+namespace VinScanner.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class CommunicationController : ControllerBase
+    public class NotificationController : ControllerBase
     {
-        private readonly ICommunicationService<EmailService> _emailCommunicationService;
-        private readonly ICommunicationService<SmsService> _smsCommunicationService;
-        private readonly ILogger<CommunicationController> _logger;
-        public CommunicationController(ICommunicationService<SmsService> smsCommunicationService, ICommunicationService<EmailService> emailCommunicationService, ILogger<CommunicationController> logger)
+        private readonly ICommunicationService<SendGridBroker> _emailCommunicationService;
+        private readonly ICommunicationService<NexmoBroker> _smsCommunicationService;
+        private readonly ILogger<NotificationController> _logger;
+        public NotificationController(ICommunicationService<NexmoBroker> smsCommunicationService, ICommunicationService<SendGridBroker> emailCommunicationService, ILogger<NotificationController> logger)
         {
             _smsCommunicationService = smsCommunicationService;
             _emailCommunicationService = emailCommunicationService;
