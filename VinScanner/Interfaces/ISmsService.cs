@@ -1,8 +1,7 @@
 ﻿namespace VinScanner.Interfaces
 {
-    public interface ICommunicationService<T> where T : class
+    public interface ISmsService
     {
         bool Send(string to, string message);
-
     }
 }

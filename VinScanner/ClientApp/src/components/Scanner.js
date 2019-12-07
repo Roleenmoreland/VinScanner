@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import BarcodeReader from 'react-barcode-reader';
 import { Glyphicon } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { Col, Grid, Row } from 'react-bootstrap';
+import axios from 'axios';
 import './CSS/Scanner.css';
 
 export class Scanner extends Component {
@@ -38,6 +38,9 @@ export class Scanner extends Component {
         var successMessageDiv = document.getElementById("scanner-success");
         successMessageDiv.style.display = "block";
     }
+    sendSms() {
+        const response = await axios.post()
+    }
 
     render() {
         return (
@@ -63,6 +66,9 @@ export class Scanner extends Component {
                             displayName="test"
                         />
                     </div>
+                    <input type="text" name="vinnumber">
+                        
+                    </input>
 
 
                 </div>

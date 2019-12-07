@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using VinScanner.Interfaces;
-using VinScanner.Services;
 
 namespace VinScanner.Controllers
 {
@@ -9,13 +8,13 @@ namespace VinScanner.Controllers
     [ApiController]
     public class NotificationController : ControllerBase
     {
-        private readonly ICommunicationService<SendGridBroker> _emailCommunicationService;
-        private readonly ICommunicationService<NexmoBroker> _smsCommunicationService;
+        private readonly IEmailService _emailService;
+        private readonly ISmsService _smsService;
         private readonly ILogger<NotificationController> _logger;
-        public NotificationController(ICommunicationService<NexmoBroker> smsCommunicationService, ICommunicationService<SendGridBroker> emailCommunicationService, ILogger<NotificationController> logger)
+        public NotificationController(IEmailService emailService, ISmsService smsService, ILogger<NotificationController> logger)
         {
-            _smsCommunicationService = smsCommunicationService;
-            _emailCommunicationService = emailCommunicationService;
+            _smsService = smsService;
+            _emailService = emailService;
             _logger = logger;
         }
 
@@ -24,7 +23,7 @@ namespace VinScanner.Controllers
         {
             try
             {
-                var isSuccessful = _smsCommunicationService.Send(to, message);
+                var isSuccessful = _smsService.Send(to, message);
                 Ok(isSuccessful);
             }
             catch (System.Exception e)
@@ -39,7 +38,7 @@ namespace VinScanner.Controllers
         {
             try
             {
-                var isSuccessful = _emailCommunicationService.Send(to, message);
+                var isSuccessful = _emailService.Send(to, message);
                 Ok(isSuccessful);
             }
             catch (System.Exception e)

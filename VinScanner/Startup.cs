@@ -29,6 +29,8 @@ namespace VinScanner.View
             //Application Dependancy Injection 
             services.AddTransient<INexmoBroker, NexmoBroker>();
             services.AddTransient<ISendGridBroker, SendGridBroker>();
+            services.AddTransient<ISmsService, SmsService>();
+            services.AddTransient<IEmailService, EmailService>();
             services.Configure<Credentials>(Configuration.GetSection(nameof(Credentials)));
             
             //Registering Swagger

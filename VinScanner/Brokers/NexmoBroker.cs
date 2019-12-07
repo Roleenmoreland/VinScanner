@@ -3,9 +3,9 @@ using Microsoft.Extensions.Options;
 using Nexmo.Api;
 using Nexmo.Api.Request;
 using System.Linq;
+using VinScanner.Extentions;
 using VinScanner.Interfaces;
 using VinScanner.Models;
-using VinScanner.Services;
 
 namespace VinScanner.Brokers
 {

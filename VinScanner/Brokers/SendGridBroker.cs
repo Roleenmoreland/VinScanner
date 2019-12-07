@@ -5,9 +5,9 @@ using SendGrid.Helpers.Mail;
 using System;
 using System.Net;
 using System.Threading.Tasks;
+using VinScanner.Extentions;
 using VinScanner.Interfaces;
 using VinScanner.Models;
-using VinScanner.Services;
 
 namespace VinScanner.Brokers
 {

@@ -1,4 +1,5 @@
 ﻿import React, { Component } from 'react';
+import axios from 'axios';
 import { Glyphicon } from 'react-bootstrap';
 import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
@@ -14,18 +15,21 @@ export class Home extends Component {
         this.message = "To Scan your vechile's VIN number, please click on the link http://localhost:4000";
         this.sendNotification = this.sendNotification.bind(this);
     }
+    state = {
+        clients : []
+    }
+
+    //Execute on load   
     componentWillMount() {
         this.getClientData()
     }
 
     getClientData() {
-        var request = new XMLHttpRequest()
-        request.addEventListener('load', () => {
-            console.log(request.responseText)
-        })        
-        request.open('GET', 'http://localhost:4000/api/get/clientdata')
-        
-        request.send()
+        axios.get('http://localhost:4000/api/client/get')
+            .then(response => {
+                const clients = response.data;
+                this.setState({ clients });
+            })
     }
 
     sendNotification(to, message) {
@@ -46,6 +50,11 @@ export class Home extends Component {
 
             <div>
                 <h1>Start sending out notifications</h1>
+    
+                <ul>
+                    {this.state.clients.map(client => <li>{client.name}</li>)}
+                </ul>
+                    
                 1. display data.
                 2. select a user and change to field
                 <button onClick={this.sendNotification(this.to, this.message)}>Send Noticicaton</button>

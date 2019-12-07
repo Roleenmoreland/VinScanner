@@ -1,6 +1,6 @@
 ﻿namespace VinScanner.Interfaces
 {
-    public interface ICustomerRepository
+    public interface IClientRepository
     {
     }
 }
