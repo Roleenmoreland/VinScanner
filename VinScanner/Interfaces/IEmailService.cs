@@ -1,7 +1,9 @@
-﻿namespace VinScanner.Interfaces
+﻿using System.Threading.Tasks;
+
+namespace VinScanner.Interfaces
 {
     public interface IEmailService
     {
-        bool Send(string to, string message);
+        Task<bool> Send(string to, string messageType);
     }
 }

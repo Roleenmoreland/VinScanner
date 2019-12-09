@@ -10,5 +10,7 @@ namespace VinScanner.Models.Repository
         public string VinNumber { get; set; }
         public DateTime DateIssued { get; set; }
         public DateTime ExpireDate { get; set; }
+        public VechileDetails VechileDetails { get; set; }
+
     }
 }

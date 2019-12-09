@@ -2,7 +2,7 @@
 {
     public interface INexmoBroker
     {
-        bool Send(string to, string message, string title, string from);
+        bool SendSms(string to, string message, string title = "", string from = "");
 
     }
 }

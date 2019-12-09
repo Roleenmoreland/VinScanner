@@ -32,7 +32,9 @@ namespace VinScanner.View
             services.AddTransient<ISmsService, SmsService>();
             services.AddTransient<IEmailService, EmailService>();
             services.Configure<Credentials>(Configuration.GetSection(nameof(Credentials)));
-            
+
+            services.AddHttpClient();
+
             //Registering Swagger
             services.AddSwaggerGen(c =>
             {

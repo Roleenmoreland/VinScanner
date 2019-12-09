@@ -30,12 +30,12 @@ namespace VinScanner.Brokers
         }
         
         /// <summary>
-        /// Sends and email
+        /// Sends and email 
         /// </summary>
         /// <param name="to">The receiver of the email</param>
         /// <param name="message">Message that is sent</param>
         /// <returns></returns>
-        public async Task<bool> Send(EmailAddress fromEmailAddress, EmailAddress toEmailAddress, string message, string subject)
+        public async Task<bool> SendEmail(EmailAddress fromEmailAddress, EmailAddress toEmailAddress, string message, string subject)
         {
             try
             {

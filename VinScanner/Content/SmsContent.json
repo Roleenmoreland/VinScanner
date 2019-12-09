@@ -5,11 +5,11 @@
     "Title": "The Delta Studio"
   },
   {
-    "Type": "ScanRequest",
+    "Template": "ScanRequest",
     "ClientMessage": "To Scan your vechile's VIN number, please click on the link below "
   },
   {
-    "Type": "ThankYou",
+    "Template": "ThankYou",
     "ClientMessage": "Thank you for scanning your VIN number"
   }
 ]
