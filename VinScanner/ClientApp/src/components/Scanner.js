@@ -39,7 +39,7 @@ export class Scanner extends Component {
         successMessageDiv.style.display = "block";
     }
     sendSms() {
-        const response = await axios.post()
+        const response = axios.post()
     }
 
     render() {
