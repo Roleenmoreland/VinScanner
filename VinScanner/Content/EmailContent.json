@@ -1,15 +1,23 @@
 ﻿[
   {
-    "Address": "VinScanner@TheDeltaStudio",
-    "ApplicationName": "VIN Scanner",
-    "Title": "The Delta Studio"
+    "Message": "test",
+    "Subject": "The Delta Studio",
+    "From": "VinScanner@TheDeltaStudio.com",
+    "Title": "The Delta Studio",
+    "Template": "test"
   },
   {
-    "Template": "ScanRequest",
-    "ClientMessage": "To Scan your vechile's VIN number, please click on the link below "
+    "Message": "To Scan your vechile's VIN number, please click on the link: {0}",
+    "Subject": "The Delta Studio",
+    "From": "VinScanner@TheDeltaStudio.com",
+    "Title": "The Delta Studio",
+    "Template": "ScanRequest"
   },
   {
-    "Template": "ThankYou",
-    "ClientMessage": "Thank you for scanning your VIN number"
+    "Message": "Thank you for scanning your VIN number",
+    "Subject": "The Delta Studio",
+    "From": "VinScanner@TheDeltaStudio.com",
+    "Title": "The Delta Studio",
+    "Template": "ThankYou"
   }
 ]

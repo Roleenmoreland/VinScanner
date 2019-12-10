@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 using VinScanner.Interfaces;
+using VinScanner.Models;
 
 namespace VinScanner.Controllers
 {
@@ -18,32 +20,55 @@ namespace VinScanner.Controllers
             _logger = logger;
         }
 
-        [HttpPost("{to}/{message}")]
-        public void SendSms([FromRoute] string to, [FromRoute] string message)
+        /// <summary>
+        /// Sends an SMS to the provided number and message.
+        /// </summary>
+        /// <param name="request"></param>
+        [HttpPost()]
+        public void SendSms([FromBody]SendSmsRequest request)
         {
             try
             {
-                var isSuccessful = _smsService.Send(to, message);
+                var isSuccessful = _smsService.Send(request.To, request.Message, request.Title, request.From);
                 Ok(isSuccessful);
             }
             catch (System.Exception e)
             {
-                _logger.LogError("Error occurred trying to perform and SMS request.", e, to, message);
+                _logger.LogError("Error occurred trying to perform and SMS request.", e, request);
+                BadRequest();
+            }
+        }
+        /// <summary>
+        /// Sends an SMS to the provided number and message will be determined by the pre-defined message templates
+        /// </summary>
+        /// <param name="to"></param>
+        /// <param name="template"></param>
+        [HttpPost("{to}/{template}")]
+        public void SendSms([FromRoute] string to, [FromRoute] string template)
+        {
+            try
+            {
+                var isSuccessful = _smsService.Send(to, template);
+                Ok(isSuccessful);
+            }
+            catch (System.Exception e)
+            {
+                _logger.LogError("Error occurred trying to perform and SMS request.", e, to, template);
                 BadRequest();
             }
         }
 
-        [HttpPost("{to}/{message}")]
-        public void SendEmail([FromRoute] string to, [FromRoute] string message)
+        [HttpPost("{to}/{template}")]
+        public async Task SendEmail([FromRoute] string to, [FromRoute] string template)
         {
             try
             {
-                var isSuccessful = _emailService.Send(to, message);
+                var isSuccessful = await _emailService.Send(to, template);
                 Ok(isSuccessful);
             }
             catch (System.Exception e)
             {
-                _logger.LogError("Error occurred trying to send and email request.", e, to, message);
+                _logger.LogError("Error occurred trying to send and email request.", e, to, template);
                 BadRequest();
             }
         }

@@ -1,15 +1,14 @@
 [
   {
-    "Address": "VinScanner@TheDeltaStudio",
-    "ApplicationName": "VIN Scanner",
-    "Title": "The Delta Studio"
+    "Message": "To Scan your vechile's VIN number, please click on the link: {0}",
+    "Title": "The Delta Studio",
+    "From": "The Delta Studio",
+    "Template": "ScanRequest"
   },
   {
-    "Template": "ScanRequest",
-    "ClientMessage": "To Scan your vechile's VIN number, please click on the link below "
-  },
-  {
-    "Template": "ThankYou",
-    "ClientMessage": "Thank you for scanning your VIN number"
+    "Message": "Thank you for scanning your VIN number",
+    "Title": "The Delta Studio",
+    "From": "The Delta Studio",
+    "Template": "ThankYou"
   }
 ]
