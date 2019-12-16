@@ -1,8 +1,17 @@
-﻿namespace VinScanner.Models.Repository
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace VinScanner.Models.Repository
 {
     public class Dealer
     {
-        public string UserNmae { get; set; }
+        [Key]
+        public int DealerId { get; set; }
+        [Required]
+        public string UserName { get; set; }
+        [Required]
         public string Password { get; set; }
+        [Required]
+        public string EmailAddress { get; set; }
+
     }
 }

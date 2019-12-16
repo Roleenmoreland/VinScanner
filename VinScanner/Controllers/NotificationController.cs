@@ -54,7 +54,7 @@ namespace VinScanner.Controllers
             catch (System.Exception e)
             {
                 _logger.LogError("Error occurred trying to perform and SMS request.", e, to, template);
-                BadRequest("test");
+                BadRequest();
             }
         }
 

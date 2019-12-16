@@ -37,12 +37,12 @@ namespace VinScanner.Brokers
         /// <param name="to">To whom the message is sent to, with th</param>
         /// <param name="message">The message</param>
         /// <returns></returns>
-        public bool SendSms(string to, string message, string title = "", string from = "")
+        public bool SendSms(int to, string message, string title = "", string from = "")
         {
             var results = _NexmoClient.SMS.Send(new SMS.SMSRequest
             {
                 from = from ?? "VIN Scanner | The Delta Studio",
-                to = to,
+                to = to.ToString(),
                 text = message,
                 title = title ?? "VIN Scanner"
             });
