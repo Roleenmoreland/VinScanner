@@ -1,6 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 using VinScanner.Interfaces;
-using VinScanner.Models;
 using VinScanner.Models.Repository;
 
 namespace VinScanner.Services
@@ -9,54 +10,48 @@ namespace VinScanner.Services
     {
         private readonly ILogger<DealerService> _logger;
         private readonly IDealerRepository _dealerRepo;
-        private readonly IClientRepository _clientRepo;
+        private readonly IUserRepository _userRepo;
         private readonly ISmsService _smsService;
+        private readonly string _baseUrl;
 
-        public DealerService(ILogger<DealerService> logger, IDealerRepository dealerRepo, IClientRepository clientRepo,
-            ISmsService smsService)
+        public DealerService(ILogger<DealerService> logger, IDealerRepository dealerRepo, IUserRepository userRepo,
+            ISmsService smsService, IConfiguration configuration)
         {
+            _baseUrl = configuration.GetSection("BaseURL").Value;
             _logger = logger;
             _dealerRepo = dealerRepo;
-            ClientRepo = clientRepo;
+            _userRepo = userRepo;
             _smsService = smsService;
         }
 
-        public IClientRepository ClientRepo { get; }
-
-        public bool Login(string username, string password)
+        public async Task<bool> Login(string username, string password)
         {
-            var isValidDealer = _dealerRepo.CheckCredentials(username, password);
+            var isValidDealer = await _dealerRepo.CheckCredentials(username, password);
             return isValidDealer;
         }
 
-        public bool Register(Dealer dealer)
+        public async Task<bool> Register(Dealer dealer)
         {
             //Check to see if user already exist
-            var isAvailableUserDetails = _dealerRepo.CheckAvailability(dealer.UserName, dealer.EmailAddress);
+            var isAvailableUserDetails = await _dealerRepo.CheckAvailability(dealer.UserName, dealer.EmailAddress);
             if (isAvailableUserDetails)
             {
-                _dealerRepo.AddDealer(dealer);
+                await _dealerRepo.AddDealer(dealer);
                 return true;
             }
 
             return false;
         }
 
-        public bool RequestVechileDetails(RequestVechilDetails request)
+        public async Task<bool> RequestVechileDetails(User request)
         {
-            var client = _clientRepo.GetClient(request.ClientName, request.MobileNumber);
-            if (client == null)
+            var user = await _userRepo.GetUser(request.Name, request.MobileNumber);
+            if (user == null)
             {
-                client = _clientRepo.AddClient(new Client
-                {
-                    EmailAddress = request.EmailAddress,
-                    MobileNumber = request.MobileNumber,
-                    Name = request.ClientName,
-                    Surname = request.ClientSurname
-                });
+                user = await _userRepo.AddUser(user);
             }
 
-            var successful = _smsService.Send(request.MobileNumber, "ScanRequest", "https://localhost:4000/scanner?dealer=1");
+            var successful = _smsService.Send(request.MobileNumber, "ScanRequest", $"{_baseUrl}/scanner?userId={user.UserId}");
 
             return successful;
         }

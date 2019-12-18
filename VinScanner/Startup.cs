@@ -9,6 +9,12 @@ using Swashbuckle.AspNetCore.Swagger;
 using VinScanner.Services;
 using VinScanner.Interfaces;
 using VinScanner.Brokers;
+using VinScanner.Repository;
+using VinScanner.Data;
+using VinScanner.Models.Repository;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using VinScanner.Models;
 
 namespace VinScanner.View
 {
@@ -28,14 +34,39 @@ namespace VinScanner.View
             
             //Application Dependancy Injection 
             services.AddTransient<INexmoBroker, NexmoBroker>();
+            services.AddTransient<INpTrackerBroker, NpTrackerBroker>();
             services.AddTransient<ISendGridBroker, SendGridBroker>();
+
+            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IDealerRepository, DealerRepository>();
+
+            services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IDealerService, DealerService>();
+            services.AddTransient<IScannerService, ScannerService>();
             services.AddTransient<ISmsService, SmsService>();
             services.AddTransient<IEmailService, EmailService>();
+
+            //Add AppSettings Configuration
             services.Configure<Credentials>(Configuration.GetSection(nameof(Credentials)));
+            services.Configure<NpTrackerSettings>(Configuration.GetSection(nameof(NpTrackerSettings)));
+
+
+            //Configuring Roles
+            //services.AddDbContext<VinScannerContext>(option =>
+            //option.UseInMemoryDatabase("sqldb-delta-test"));
+
+            services.AddIdentity<User, IdentityRole>()
+                .AddEntityFrameworkStores<VinScannerContext>()
+                .AddDefaultTokenProviders();
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("DealerRole", policy => policy.RequireRole("Dealer"));
+            });
 
             services.AddHttpClient();
 
-            //Registering Swagger
+            //Adding Swagger
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "Vin Scanner API", Version = "v1" });

@@ -11,7 +11,7 @@ namespace VinScanner.Models
         public string Name { get; set; }
         public string Surname { get; set; }
         public string EmailAddress { get; set; }
-        public int MobileNumber { get; set; }
+        public string MobileNumber { get; set; }
 
     }
 }

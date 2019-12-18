@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Threading.Tasks;
 using VinScanner.Interfaces;
 using VinScanner.Models;
 using VinScanner.Models.Repository;
@@ -21,47 +23,49 @@ namespace VinScanner.Controllers
 
 
         [HttpPost()]
-        public void Login([FromBody] string username, [FromBody] string password)
+        [Authorize(Policy = "DealerRole")]
+        public async Task<ActionResult> Login([FromBody] LoginRequest request)
         {
             try
             {
-                var isSuccessful = _dealerService.Login(username, password);
-                Ok(isSuccessful);
+                var isSuccessful = await _dealerService.Login(request.Username, request.Password);
+                return Ok(isSuccessful);
             }
             catch (System.Exception e)
             {
-                _logger.LogError("Error occurred trying to login.", e, username);
-                BadRequest();
+                _logger.LogError("Error occurred trying to login.", e, request.Username);
+                return BadRequest();
             }
         }
 
         [HttpPost()]
-        public void Register([FromBody] Dealer dealer)
+        public async Task<ActionResult> Register([FromBody] Dealer dealer)
         {
             try
             {
-                var isSuccessful = _dealerService.Register(dealer);
-                Ok(isSuccessful);
+                var isSuccessful = await _dealerService.Register(dealer);
+                return  Ok(isSuccessful);
             }
             catch (System.Exception e)
             {
                 _logger.LogError("Error occurred trying to Register a new Dealer.", e, dealer.UserName, dealer.EmailAddress);
-                BadRequest();
+                return BadRequest();
             }
         }
 
+        [Authorize(Policy = "DealerRole")]
         [HttpPost()]
-        public void RequestVechilDetails(RequestVechilDetails request)
+        public async Task<ActionResult> RequestVechileDetails([FromBody] User request)
         {
             try
             {
-                var isSuccessful = _dealerService.RequestVechileDetails(request);
-                Ok(isSuccessful);
+                var isSuccessful = await _dealerService.RequestVechileDetails(request);
+                return Ok(isSuccessful);
             }
             catch (System.Exception e)
             {
-                _logger.LogError("Error occurred trying to request the vechile details for a client.", e, request);
-                BadRequest();
+                _logger.LogError("Error occurred trying to request the vechile details for a user.", e, request);
+                return BadRequest();
             }
         }
     }

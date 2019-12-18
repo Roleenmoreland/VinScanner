@@ -4,6 +4,6 @@ namespace VinScanner.Interfaces
 {
     public interface IEmailService
     {
-        Task<bool> Send(string to, string template);
+        Task<bool> Send(string to, string template, string[] replacements);
     }
 }

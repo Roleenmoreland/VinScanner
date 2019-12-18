@@ -10,7 +10,7 @@ namespace VinScanner.Data
     public class VinScannerContext : DbContext
     {
         public DbSet<Dealer> Dealers { get; set; }
-        public DbSet<Client> Clients { get; set; }
+        public DbSet<User> Users { get; set; }
         public DbSet<VechileDetails> VechileDetails { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)

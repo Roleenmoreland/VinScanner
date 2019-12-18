@@ -7,16 +7,13 @@ namespace VinScanner.Extensions
 {
     public static class JsonFileReader
     {
-        public static T ReadFile<T> (string fileName)
+        public static T ReadFile<T>(string fileName)
         {
-            var assembly = Assembly.GetExecutingAssembly();
-            var fullFilePath = $"{assembly}/Content/{fileName}.json";
-            using (var stream = new StreamReader(fullFilePath))
-            {
-                if (stream == null)
-                    throw new ArgumentException("Cound not find the resource.");
+            var fullFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Content", $"{fileName}.json");
 
-                string jsonFile = stream.ReadToEnd();
+            using (StreamReader reader = new StreamReader(fullFilePath))
+            {
+                string jsonFile = reader.ReadToEnd();
                 T items = JsonConvert.DeserializeObject<T>(jsonFile);
                 return items;
             }

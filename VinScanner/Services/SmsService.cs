@@ -13,14 +13,14 @@ namespace VinScanner.Services
             _nexmoBroker = nexmoBroker;
         }
 
-        public bool Send(int mobileNumber, string message, string title = "", string from = "")
+        public bool Send(string mobileNumber, string message, string title = "", string from = "")
         {
             //Sends the SMS using the Nexmo client
             var response = _nexmoBroker.SendSms(mobileNumber, message, title, from);
             return response;
         }
 
-        public bool Send(int mobileNumber, string template, string messagePlaceHolders)
+        public bool Send(string mobileNumber, string template, string messagePlaceHolders)
         {
             //Get Predefined sms content from a json file
             var smsContent = JsonFileReader.ReadFile<List<SmsContent>>("SmsContent");

@@ -7,7 +7,7 @@
     "Template": "test"
   },
   {
-    "Message": "To Scan your vechile's VIN number, please click on the link: {0}",
+    "Message": "The vechile information for {0}, has been added. The vin number is {1}",
     "Subject": "The Delta Studio",
     "From": "VinScanner@TheDeltaStudio.com",
     "Title": "The Delta Studio",

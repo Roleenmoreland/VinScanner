@@ -48,7 +48,7 @@ namespace VinScanner.Controllers
         {
             try
             {
-                var isSuccessful = _smsService.Send(to, template);
+                var isSuccessful = _smsService.Send(to, template, "");
                 Ok(isSuccessful);
             }
             catch (System.Exception e)
@@ -63,7 +63,7 @@ namespace VinScanner.Controllers
         {
             try
             {
-                var isSuccessful = await _emailService.Send(to, template);
+                var isSuccessful = await _emailService.Send(to, template, null);
                 Ok(isSuccessful);
             }
             catch (System.Exception e)

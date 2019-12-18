@@ -1,12 +1,14 @@
-﻿using VinScanner.Models.Repository;
+﻿using System.Threading.Tasks;
+using VinScanner.Models.Repository;
 
 namespace VinScanner.Interfaces
 {
     public interface IDealerRepository
     {
-        void AddDealer(Dealer dealer);
-        bool CheckCredentials(string userName, string password);
-        bool CheckAvailability(string userName, string emailAddress);
+        Task AddDealer(Dealer dealer);
+        Task<Dealer> Get(int dealerId);
+        Task<bool> CheckCredentials(string userName, string password);
+        Task<bool> CheckAvailability(string userName, string emailAddress);
 
     }
 }

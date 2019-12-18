@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
+using System.Threading.Tasks;
 using VinScanner.Data;
 using VinScanner.Interfaces;
 using VinScanner.Models.Repository;
@@ -14,7 +16,7 @@ namespace VinScanner.Repository
             context = new VinScannerContext();
         }
 
-        public void AddDealer(Dealer dealer)
+        public async Task AddDealer(Dealer dealer)
         {
             var newDealer = new Dealer()
             {
@@ -22,14 +24,24 @@ namespace VinScanner.Repository
                 Password = dealer.Password,
                 EmailAddress = dealer.EmailAddress.ToLower()
             };
-            context.Dealers.Add(newDealer);
-            context.SaveChanges();
+            await context.Dealers.AddAsync(newDealer);
+            await context.SaveChangesAsync();
 
         }
 
-        public bool CheckCredentials(string userName, string password)
+        public async Task<Dealer> Get(int dealerId)
         {
-            var dealer = context.Dealers?.FirstOrDefault(d => d.UserName == userName.ToLower() && d.Password == password);
+            var dealer = await context.Dealers?.FirstOrDefaultAsync(d => d.DealerId == dealerId);
+            if (dealer != null)
+            {
+                return dealer;
+            }
+            throw new ApplicationException("Could not find the dealer");
+        }
+
+        public async Task<bool> CheckCredentials(string userName, string password)
+        {
+            var dealer = await context.Dealers?.FirstOrDefaultAsync(d => d.UserName == userName.ToLower() && d.Password == password);
             if (dealer != null)
             {
                 return true;
@@ -37,9 +49,9 @@ namespace VinScanner.Repository
             return false;
         }
 
-        public bool CheckAvailability(string userName, string emailAddress)
+        public async Task<bool> CheckAvailability(string userName, string emailAddress)
         {
-            var dealer = context.Dealers?.FirstOrDefault(d => d.UserName == userName.ToLower() || d.EmailAddress == emailAddress.ToLower());
+            var dealer = await context.Dealers?.FirstOrDefaultAsync(d => d.UserName == userName.ToLower() || d.EmailAddress == emailAddress.ToLower());
             if (dealer == null)
             {
                 return true;

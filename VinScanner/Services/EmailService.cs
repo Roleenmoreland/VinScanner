@@ -15,14 +15,20 @@ namespace VinScanner.Services
             _sendGridBroker = sendGridBroker;
         }
 
-        public async Task<bool> Send(string to, string template)
+        public async Task<bool> Send(string to, string template, string[] replacements)
         {
             //Get Predefined email content from a json file
             var emailContent = JsonFileReader.ReadFile<List<EmailContent>>("EmailContent");
             var emailDetails = emailContent.Find(content => content.Template == template);
 
+            var message = emailDetails.Message;
+            if (replacements?.Length > 0)
+            {
+                message = string.Format(emailDetails.Message, replacements);
+            }
+
             //Sends the email using the SendGrid client
-            var response = await _sendGridBroker.SendEmail(new EmailAddress(to), new EmailAddress(emailDetails.From), emailDetails.Message, emailDetails.Subject);
+            var response = await _sendGridBroker.SendEmail(new EmailAddress(to), new EmailAddress(emailDetails.From), message, emailDetails.Subject);
             return response;
         }
     }

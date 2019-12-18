@@ -1,10 +1,13 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using VinScanner.Extentions;
 using VinScanner.Interfaces;
 using VinScanner.Models;
 
@@ -12,13 +15,18 @@ namespace VinScanner.Brokers
 {
     public class NpTrackerBroker : INpTrackerBroker
     {
-        private readonly string _npTrackerBaseURl;
+        private readonly string BaseURL;
+        private readonly string ApiKey;
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly ILogger<NpTrackerBroker> _logger;
 
-        public NpTrackerBroker(IConfiguration configurations, IHttpClientFactory httpClientFactory)
+        public NpTrackerBroker(IOptions<NpTrackerSettings> configuration, IHttpClientFactory httpClientFactory,
+            ILogger<NpTrackerBroker> logger)
         {
-            _npTrackerBaseURl = configurations.GetSection("NpTrackerBaseUrl").Value;
+            ApiKey = Cipher.DecryptString(configuration.Value.ApiKey, Constants.NpTrackerPassKey);
+            BaseURL = configuration.Value.BaseURL;
             _httpClientFactory = httpClientFactory;
+            _logger = logger;
         }
 
         /// <summary>
@@ -28,15 +36,14 @@ namespace VinScanner.Brokers
         /// <param name="vinNumber">The vechile vin number</param>
         public async Task<VechileCheckReportResponse> VechileCheckReport(string vinNumber)
         {
-            var token = "mysecurityToken";
-            
             var client =_httpClientFactory.CreateClient();
-            var response = await client.GetAsync($"{_npTrackerBaseURl}?token={token}&vinregs={vinNumber}");
+            var response = await client.GetAsync($"{BaseURL}?token={ApiKey}&vinregs={vinNumber}");
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
                 return JsonConvert.DeserializeObject<VechileCheckReportResponse>(await response.Content.ReadAsStringAsync());
             }
-            //todo log error
+
+            _logger.LogError("Could not retrieve the vechile check report", response);
 
             throw new Exception($"Could not retrieve the data for this vin number: {vinNumber}.");
         }

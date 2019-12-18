@@ -10,6 +10,6 @@
         public string Colour { get; set; }
         public string Vin { get; set; }
         public string Engine { get; set; }
-        public Client Client { get; set; }
+        public User User { get; set; }
     }
 }
